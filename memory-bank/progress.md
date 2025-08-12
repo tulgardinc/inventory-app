@@ -157,4 +157,8 @@
 - **User Experience**: <3 taps to add item via barcode
 - **Reliability**: Zero data loss during normal operations
 
+## Recent Activity Log
+
+**December 8, 2025, 9:58 AM (CET)**: Kickoff: created branch `phase1-core-dependencies` for Issue #16
+
 This progress tracking will be updated as development advances through each phase.
