@@ -3,8 +3,8 @@ import { z } from 'zod';
 // Inventory schema
 export const InventorySchema = z.object({
   id: z.string().min(1, 'ID is required'),
-  name: z.string().min(1, 'Inventory name is required'),
-  description: z.string().optional(),
+  name: z.string().trim().min(1, 'Inventory name is required'),
+  description: z.string().trim().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
@@ -12,14 +12,14 @@ export const InventorySchema = z.object({
 // Item schema
 export const ItemSchema = z.object({
   id: z.string().min(1, 'ID is required'),
-  inventoryId: z.string().min(1, 'Inventory ID is required'),
-  name: z.string().min(1, 'Item name is required'),
-  description: z.string().optional(),
+  inventoryId: z.string().trim().min(1, 'Inventory ID is required'),
+  name: z.string().trim().min(1, 'Item name is required'),
+  description: z.string().trim().optional(),
   quantity: z.number().min(0, 'Quantity cannot be negative'),
   price: z.number().min(0, 'Price cannot be negative').optional(),
-  category: z.string().optional(),
-  location: z.string().optional(),
-  barcode: z.string().optional(),
+  category: z.string().trim().optional(),
+  location: z.string().trim().optional(),
+  barcode: z.string().trim().optional(),
   expirationDate: z.date().optional(),
   entryDate: z.date(),
   updatedAt: z.date(),

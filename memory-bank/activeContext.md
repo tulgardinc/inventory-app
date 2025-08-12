@@ -1,109 +1,66 @@
-# Active Context
+# Active Context - Issue #1: Phase 1: Set Up Testing Infrastructure
 
-## Current Issue
-**Issue #2**: Phase 1: Implement SQLite Database Service Layer  
-**URL**: https://github.com/tulgardinc/inventory-app/issues/2  
-**Branch**: `phase1-sqlite-database`  
-**Status**: In Progress
+**Issue URL:** https://github.com/tulgardinc/inventory-app/issues/1  
+**Branch:** phase1-testing-infrastructure  
+**Status:** In Progress  
+**Started:** December 8, 2025
 
 ## Scope & Acceptance Criteria
 
-### Overview
-Create the core database service layer with SQLite integration, schema setup, and basic CRUD operations.
+Setting up comprehensive testing infrastructure to support TDD workflow with:
+- Unit tests runnable with `npm test`
+- Component tests using React Native Testing Library
+- Detox e2e tests executable
+- Test coverage reporting available
+- All tests passing in CI environment
 
-### Acceptance Criteria
-- Database creates tables on first run
-- CRUD operations work for both inventories and items  
-- Foreign key relationships maintain data integrity
-- TypeScript types match database schema
-- Database operations include proper error handling
+## Tasks from Issue
 
-### Database Components to Build
-- Database connection and initialization
-- Schema migrations for inventories and items tables
-- Service layer for database operations
-- TypeScript interfaces for database entities
+- [ ] Install React Native Testing Library
+- [ ] Set up Detox for e2e testing  
+- [ ] Configure Jest for React Native components
+- [ ] Create test utilities and common mocks
+- [ ] Set up test scripts in package.json
+- [ ] Create example tests to verify setup
+- [ ] Configure CI-friendly test commands
 
 ## Plan of Attack
 
-### Phase 1: Core Database Setup
-1. **Create database service module** (`lib/database.ts`)
-   - Initialize expo-sqlite connection
-   - Database configuration and error handling
-
-2. **Implement database schema** 
-   - CREATE TABLE statements for inventories and items
-   - Foreign key relationships and constraints
-   - Proper indexing for performance
-
-3. **Build migration system**
-   - Version tracking for schema changes
-   - Safe migration execution
-   - Rollback capabilities
-
-### Phase 2: TypeScript Integration  
-4. **Create database entity interfaces**
-   - DatabaseInventory and DatabaseItem types
-   - Mapping between Zustand store types and DB types
-
-### Phase 3: CRUD Operations
-5. **Implement inventory CRUD operations**
-   - Create, read, update, delete for inventories
-   - Integration with existing Zustand store
-
-6. **Implement item CRUD operations** 
-   - Create, read, update, delete for items
-   - Relationship management with inventories
-
-7. **Database initialization and seeding**
-   - First-run setup
-   - Optional sample data
+1. **Analyze Current Setup**: Check existing Jest configuration and testing dependencies
+2. **Install Testing Dependencies**: Add React Native Testing Library, Detox, and related packages
+3. **Configure Jest**: Set up proper Jest config for React Native components and database testing
+4. **Set Up Detox**: Configure e2e testing environment with proper device setup
+5. **Create Test Utilities**: Build common mocks for database, navigation, and UI components
+6. **Write Example Tests**: Create sample unit, component, and e2e tests to verify setup
+7. **Configure Scripts**: Set up package.json scripts for different test types
+8. **Verify CI Compatibility**: Ensure all tests run in headless/CI environment
 
 ## Assumptions & Constraints
 
-- **expo-sqlite** already installed and configured
-- Existing Zustand store patterns should be preserved
-- Current Zod schemas in `lib/schemas.ts` define the data structure
-- Database should work offline-first
-- Need to maintain compatibility with existing form components
+- **Expo Environment**: Working within Expo managed workflow constraints
+- **SQLite Database**: Need to mock/test database operations properly
+- **React Navigation**: Need proper navigation mocking for component tests
+- **GlueStack UI**: Need component library testing support
+- **Coding Standards**: All test files must follow 300-line limit rule
 
 ## Technical Considerations
 
-- **Performance**: Use transactions for batch operations
-- **Error Handling**: Comprehensive error catching and logging
-- **Type Safety**: Strong TypeScript integration between DB and store
-- **Migration Safety**: Careful schema versioning and backwards compatibility
+- **Database Testing**: Need to handle SQLite operations in test environment
+- **Navigation Testing**: Mock Expo Router properly for component tests
+- **Async Operations**: Handle Zustand store operations and database calls
+- **Form Validation**: Test Zod schema validation properly
+- **UI Component Testing**: Test GlueStack UI components with NativeWind styles
 
 ## Open Questions
 
-1. Should we migrate existing Zustand store data to database on first run?
-2. How do we handle data synchronization between Zustand store and database?
-3. Do we need connection pooling or is single connection sufficient?
-4. Should we implement soft delete or hard delete for items/inventories?
+- Should we use in-memory SQLite for tests or mock the database layer?
+- What's the best approach for testing navigation in Expo Router?
+- How to handle Metro bundler configuration for test environment?
+- Should we test both the original store and databaseStore separately?
 
-## Current Progress
+## Next Steps
 
-- ✅ Branch created: `phase1-sqlite-database`
-- ✅ Issue analysis complete
-- ✅ Database service implementation COMPLETE
-- ✅ All core components implemented:
-  - Database connection and configuration system
-  - Migration system with schema versioning
-  - Complete CRUD operations for inventories and items
-  - Database types and interfaces for type safety
-  - ID generator utility for unique identifiers
-  - Database-integrated Zustand store
-  - Error handling and transaction support
-- ✅ Coding standards followed (all files under 300 lines)
-- ✅ Changes committed to git
-- ⏳ Ready for testing and PR creation
-
-## Next Immediate Steps
-
-1. Create `lib/database.ts` with basic connection setup
-2. Define database schema with CREATE TABLE statements  
-3. Implement migration system
-4. Create TypeScript interfaces for database entities
-5. Build CRUD operations for inventories
-6. Build CRUD operations for items
-7. Test database integration with existing components
+1. Check current package.json for existing Jest configuration
+2. Research Expo + React Native Testing Library best practices
+3. Determine Detox compatibility with current Expo version
+4. Plan database testing strategy (mocking vs in-memory)
