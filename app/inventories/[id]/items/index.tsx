@@ -328,10 +328,10 @@ export default function ItemsListScreen() {
             <AlertDialogCloseButton onPress={handleDeleteDialogClose} />
           </AlertDialogHeader>
           
-          <AlertDialogBody>
-            <Text>
-              Are you sure you want to delete "{deleteDialog.selectedItem?.name}"?
-            </Text>
+            <AlertDialogBody>
+              <Text>
+                Are you sure you want to delete &quot;{deleteDialog.selectedItem?.name}&quot;?
+              </Text>
             <Text size="sm" color="$textLight600" mt="$2">
               This action cannot be undone.
             </Text>

@@ -149,6 +149,7 @@ describe('ItemsListScreen', () => {
       mockUseDatabaseStore.mockImplementation((selector) =>
         selector({
           ...mockStoreDefaults,
+          inventories: [], // Empty inventories array
           getInventoryById: jest.fn().mockReturnValue(null),
         })
       );
@@ -243,6 +244,7 @@ describe('ItemsListScreen', () => {
       mockUseDatabaseStore.mockImplementation((selector) =>
         selector({
           ...mockStoreDefaults,
+          inventories: [], // Empty inventories array
           getInventoryById: jest.fn().mockReturnValue(null),
         })
       );

@@ -1,4 +1,4 @@
-import { useAppStore } from '@/lib/store';
+import { useDatabaseStore } from '@/lib/databaseStore';
 import { Box, Button, ButtonText, Heading, HStack, VStack } from '@gluestack-ui/themed';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
@@ -7,20 +7,40 @@ export default function InventoryDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const inventoryId = Array.isArray(id) ? id[0] : id;
-  
-  const inventories = useAppStore((state) => state.inventories);
-  const items = useAppStore((state) => state.items);
-  const setCurrentInventory = useAppStore((state) => state.setCurrentInventory);
-  const createItem = useAppStore((state) => state.createItem);
+  // Database store selectors
+  const inventories = useDatabaseStore((state) => state.inventories);
+  const items = useDatabaseStore((state) => state.items);
+  const isInitialized = useDatabaseStore((state) => state.isInitialized);
+  const initializeDatabase = useDatabaseStore((state) => state.initializeDatabase);
+  const loadInventories = useDatabaseStore((state) => state.loadInventories);
+  const loadItemsForInventory = useDatabaseStore((state) => state.loadItemsForInventory);
+  const setCurrentInventory = useDatabaseStore((state) => state.setCurrentInventory);
+  const createItem = useDatabaseStore((state) => state.createItem);
   
   const inventory = inventories.find(inv => inv.id === inventoryId);
   const inventoryItems = items.filter(item => item.inventoryId === inventoryId);
 
+  // Initialize database and load data
   React.useEffect(() => {
-    if (inventoryId) {
-      setCurrentInventory(inventoryId);
-    }
-  }, [inventoryId, setCurrentInventory]);
+    const initializeAndLoad = async () => {
+      try {
+        if (!isInitialized) {
+          await initializeDatabase();
+        }
+        
+        await loadInventories();
+        
+        if (inventoryId) {
+          setCurrentInventory(inventoryId);
+          await loadItemsForInventory(inventoryId);
+        }
+      } catch (err) {
+        console.error('Failed to initialize inventory detail:', err);
+      }
+    };
+
+    initializeAndLoad();
+  }, [inventoryId, isInitialized, initializeDatabase, loadInventories, loadItemsForInventory, setCurrentInventory]);
 
   if (!inventory) {
     return (
@@ -33,9 +53,18 @@ export default function InventoryDetailScreen() {
     );
   }
 
-  const handleAddItem = () => {
-    const newItem = createItem(inventoryId, `Item ${inventoryItems.length + 1}`, 'New item');
-    router.push(`/inventories/${inventoryId}/items/${newItem.id}`);
+  const handleAddItem = async () => {
+    try {
+      const newItem = await createItem({
+        inventoryId: inventoryId,
+        name: `Item ${inventoryItems.length + 1}`,
+        description: 'New item',
+        quantity: 1,
+      });
+      router.push(`/inventories/${inventoryId}/items/${newItem.id}`);
+    } catch (err) {
+      console.error('Failed to create item:', err);
+    }
   };
 
   const handleViewAllItems = () => {

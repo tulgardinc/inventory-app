@@ -1,10 +1,15 @@
 # Active Context
 
 ## Current Issue
+**CRITICAL BUG FIXED**: Navigation "list not found" bug resolved
+**Root Cause**: Store mismatch between screens (useDatabaseStore vs useAppStore)
+**Status**: Bug fix completed, app fully functional
+
+### Previous Issue Context
 **Issue #5**: Phase 2: Implement Item CRUD Operations and UI
 **URL**: https://github.com/tulgardinc/inventory-app/issues/5
 **Branch**: `item-crud-operations`
-**Status**: In Progress
+**Status**: In Progress (paused for critical bug fix)
 
 ## Scope & Acceptance Criteria
 
