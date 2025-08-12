@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Inventory schema
 export const InventorySchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().min(1, 'ID is required'),
   name: z.string().min(1, 'Inventory name is required'),
   description: z.string().optional(),
   createdAt: z.date(),
@@ -11,8 +11,8 @@ export const InventorySchema = z.object({
 
 // Item schema
 export const ItemSchema = z.object({
-  id: z.string().uuid(),
-  inventoryId: z.string().uuid(),
+  id: z.string().min(1, 'ID is required'),
+  inventoryId: z.string().min(1, 'Inventory ID is required'),
   name: z.string().min(1, 'Item name is required'),
   description: z.string().optional(),
   quantity: z.number().min(0, 'Quantity cannot be negative'),
