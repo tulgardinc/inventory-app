@@ -21,28 +21,6 @@ Finalize public state, close loops in local memory, and mark the work as done on
 
    * Post a comment indicating PR is still pending.
 
-## Shell Commands
-
-```bash
-ISSUE="${ISSUE:?issue required}"
-
-# 1) Locate PR referencing the issue
-PR_URL=$(gh pr list --state all --search "Closes #$ISSUE in:title,body" --json url,mergedAt | jq -r '.[0].url // empty')
-
-if [ -n "$PR_URL" ]; then
-  MERGED_AT=$(gh pr view "$PR_URL" --json mergedAt -q '.mergedAt')
-  if [ "$MERGED_AT" != "null" ] && [ -n "$MERGED_AT" ]; then
-    # 2) Close the issue and update labels
-    gh issue close "$ISSUE" --comment "Merged via $PR_URL. Closing issue."
-    gh issue edit "$ISSUE" --add-label "status: done" --remove-label "status: in review" || true
-  else
-    gh issue comment "$ISSUE" --body "PR pending: $PR_URL — not merged yet. Tracking remains in **in review**."
-  fi
-else
-  gh issue comment "$ISSUE" --body "No PR found yet that closes this issue. Please run /complete-issue-pr when ready."
-fi
-```
-
 ## Cline Must Also
 
 * Append a final “Outcome & Lessons” entry to `memory-bank/progress.md`.
