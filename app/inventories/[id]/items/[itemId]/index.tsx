@@ -1,21 +1,33 @@
-import { useAppStore } from '@/lib/store';
-import { Box, Button, ButtonText, Heading, HStack, VStack } from '@gluestack-ui/themed';
+import { useDatabaseStore } from '@/lib/databaseStore';
+import { AlertDialog, AlertDialogBackdrop, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, Box, Button, ButtonText, Heading, HStack, VStack } from '@gluestack-ui/themed';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ItemDetailScreen() {
   const router = useRouter();
   const { id, itemId } = useLocalSearchParams();
   const inventoryId = Array.isArray(id) ? id[0] : id;
-  const itemIdStr = Array.isArray(itemId) ? itemId[0] : itemId;
+  const itemIdStr = Array.isArray(itemId) ? itemId[0] : itemId as string;
   
-  const inventories = useAppStore((state) => state.inventories);
-  const items = useAppStore((state) => state.items);
-  const updateItem = useAppStore((state) => state.updateItem);
-  const removeItem = useAppStore((state) => state.removeItem);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   
-  const inventory = inventories.find(inv => inv.id === inventoryId);
+  const { 
+    getInventoryById, 
+    getItemsForInventory, 
+    deleteItem,
+    loadItemsForInventory 
+  } = useDatabaseStore();
+  
+  const inventory = getInventoryById(inventoryId);
+  const items = getItemsForInventory(inventoryId);
   const item = items.find(item => item.id === itemIdStr);
+
+  useEffect(() => {
+    if (inventoryId) {
+      loadItemsForInventory(inventoryId);
+    }
+  }, [inventoryId, loadItemsForInventory]);
 
   if (!inventory || !item) {
     return (
@@ -28,9 +40,21 @@ export default function ItemDetailScreen() {
     );
   }
 
-  const handleDelete = () => {
-    removeItem(item.id);
-    router.back();
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteItem(item.id);
+      router.back();
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteAlert(false);
+    }
+  };
+
+  const handleEdit = () => {
+    router.push(`/inventories/${inventoryId}/items/${itemId}/edit`);
   };
 
   const formatDate = (date: Date) => {
@@ -118,13 +142,47 @@ export default function ItemDetailScreen() {
 
         {/* Actions */}
         <VStack space="sm">
-          <Button variant="outline">
+          <Button variant="outline" onPress={handleEdit}>
             <ButtonText>Edit Item</ButtonText>
           </Button>
-          <Button variant="solid" action="negative" onPress={handleDelete}>
+          <Button variant="solid" action="negative" onPress={() => setShowDeleteAlert(true)}>
             <ButtonText>Delete Item</ButtonText>
           </Button>
         </VStack>
+
+        {/* Delete Confirmation Dialog */}
+        <AlertDialog isOpen={showDeleteAlert} onClose={() => setShowDeleteAlert(false)}>
+          <AlertDialogBackdrop />
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <Heading size="lg">Delete Item</Heading>
+              <AlertDialogCloseButton />
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              <ButtonText>
+                Are you sure you want to delete &quot;{item.name}&quot;? This action cannot be undone.
+              </ButtonText>
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button
+                variant="outline"
+                action="secondary"
+                mr="$3"
+                onPress={() => setShowDeleteAlert(false)}
+                isDisabled={isDeleting}
+              >
+                <ButtonText>Cancel</ButtonText>
+              </Button>
+              <Button
+                action="negative"
+                onPress={handleDelete}
+                isDisabled={isDeleting}
+              >
+                <ButtonText>{isDeleting ? 'Deleting...' : 'Delete'}</ButtonText>
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </VStack>
     </Box>
   );

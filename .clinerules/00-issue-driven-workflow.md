@@ -6,7 +6,7 @@ This document is the **master reference** for your GitHub Issues–driven workfl
 
 * **Start Issue:** [`start-issue.md`](./workflows/start-issue.md) — Create a branch from an issue, set it in progress, initialize local context.
 * **Update Progress:** [`update-progress.md`](./workflows/update-progress.md) — Post public status updates to the issue while keeping detailed notes locally.
-* **Complete Issue & Open PR:** [`complete-issue-pr.md`](./workflows/complete-issue-pr.md) — Push the branch, create a PR that references the issue, update status to in review.
+* **Complete Issue & Open PR:** [`complete-issue.md`](./workflows/complete-issue.md) — Push the branch, create a PR that references the issue, update status to in review.
 * **Wrap-up After Merge:** [`wrapup.md`](./workflows/wrapup.md) — Confirm PR merged, close the issue, mark as done, finalize local notes.
 
 ## Labels
@@ -24,7 +24,8 @@ Use the memory bank rules to keep track of proejct context localy.
 1. **/start-issue** → Initialize branch, context, labels, and kickoff comment.
 2. **/update-progress** → Publish a short public update to the issue; sync local notes.
 3. **/complete-issue-pr** → Push changes, open PR with `Closes #<issue>`, update labels.
-4. **/wrapup** → Close out the issue post-merge, mark done, finalize notes.
+4. **/wrapup** → Finalize notes, close out the issue post-merge, mark done.
+5. Stop and wait for user code review.
 
 ## Guiding Principles
 
