@@ -19,6 +19,10 @@ interface AppState {
   removeItem: (itemId: string) => void;
   updateItem: (itemId: string, updates: Partial<Item>) => void;
   
+  // Helper functions
+  createInventory: (name: string, description?: string) => Inventory;
+  createItem: (inventoryId: string, name: string, description?: string, barcode?: string) => Item;
+  
   // Computed getters
   getCurrentInventory: () => Inventory | null;
   getCurrentInventoryItems: () => Item[];
@@ -66,6 +70,36 @@ export const useAppStore = create<AppState>((set, get) => ({
         : item
     )
   })),
+  
+  // Helper functions
+  createInventory: (name, description) => {
+    const now = new Date();
+    const inventory: Inventory = {
+      id: `inv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name,
+      description,
+      createdAt: now,
+      updatedAt: now
+    };
+    get().addInventory(inventory);
+    return inventory;
+  },
+  
+  createItem: (inventoryId, name, description, barcode) => {
+    const now = new Date();
+    const item: Item = {
+      id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      inventoryId,
+      name,
+      description,
+      quantity: 1,
+      barcode,
+      entryDate: now,
+      updatedAt: now
+    };
+    get().addItem(item);
+    return item;
+  },
   
   // Computed getters
   getCurrentInventory: () => {
