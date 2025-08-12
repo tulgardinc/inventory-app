@@ -61,9 +61,17 @@ jest.mock('expo-haptics', () => ({
 jest.mock('@gluestack-ui/themed', () => ({
   Box: 'View',
   Text: 'Text',
+  Heading: 'Text',
   Button: ({ children, isDisabled, ...props }) => {
     const React = require('react');
-    return React.createElement('TouchableOpacity', { isDisabled, ...props }, children);
+    // Pass isDisabled to children so tests can access it from ButtonText
+    const enhancedChildren = React.Children.map(children, child => {
+      if (React.isValidElement(child)) {
+        return React.cloneElement(child, { isDisabled, ...child.props });
+      }
+      return child;
+    });
+    return React.createElement('TouchableOpacity', { disabled: isDisabled, isDisabled, ...props }, enhancedChildren);
   },
   ButtonText: 'Text',
   Input: 'TextInput',
