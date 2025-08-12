@@ -1,79 +1,98 @@
-# Active Context - Issue #3 ✅ COMPLETED
+# Active Context
 
-**Issue:** #3 - Phase 2: Inventory Management Navigation & Basic CRUD Forms  
-**URL:** https://github.com/tulgardinc/inventory-app/issues/3  
-**Branch:** phase2-inventory-navigation  
-**Status:** ✅ COMPLETED - Ready for PR
+## Current Issue
+**Issue #2**: Phase 1: Implement SQLite Database Service Layer  
+**URL**: https://github.com/tulgardinc/inventory-app/issues/2  
+**Branch**: `phase1-sqlite-database`  
+**Status**: In Progress
 
-## Scope & Acceptance Criteria ✅
+## Scope & Acceptance Criteria
 
-✅ **Navigation Structure Complete:**
-- Complete nested routing with Expo Router file-based system
-- Inventory list → Details → Items → Item Details hierarchy
-- Smooth screen transitions with proper parameter passing
-- TypeScript navigation properly configured
+### Overview
+Create the core database service layer with SQLite integration, schema setup, and basic CRUD operations.
 
-✅ **Basic CRUD Forms Implemented:**
-- InventoryForm: Create inventories with validation
-- BasicItemForm: Create items with validation  
-- Zod schema integration for type-safe validation
-- Form error handling and user feedback
+### Acceptance Criteria
+- Database creates tables on first run
+- CRUD operations work for both inventories and items  
+- Foreign key relationships maintain data integrity
+- TypeScript types match database schema
+- Database operations include proper error handling
 
-✅ **Integration Complete:**
-- Forms connected to Zustand store operations
-- Navigation flows between all screens working
-- Create → List → Detail → Edit workflows functional
+### Database Components to Build
+- Database connection and initialization
+- Schema migrations for inventories and items tables
+- Service layer for database operations
+- TypeScript interfaces for database entities
 
-## Implementation Summary
+## Plan of Attack
 
-**Core Files Created/Updated:**
-- `components/forms/InventoryForm.tsx` - Inventory creation with validation
-- `components/forms/BasicItemForm.tsx` - Item creation with validation  
-- `app/inventories/create.tsx` - Inventory creation screen
-- `app/inventories/[id]/items/create.tsx` - Item creation screen
-- `app/inventories/_layout.tsx` - Updated with all routes
-- `lib/schemas.ts` - Fixed ID validation for custom ID format
+### Phase 1: Core Database Setup
+1. **Create database service module** (`lib/database.ts`)
+   - Initialize expo-sqlite connection
+   - Database configuration and error handling
 
-**Navigation Structure:**
-```
-app/inventories/
-├── index.tsx (Inventory List)
-├── create.tsx (Create Inventory) ✅
-├── _layout.tsx (Stack Navigation) ✅
-└── [id]/
-    ├── index.tsx (Inventory Details)
-    └── items/
-        ├── index.tsx (Items List)
-        ├── create.tsx (Create Item) ✅
-        └── [itemId]/
-            └── index.tsx (Item Details)
-```
+2. **Implement database schema** 
+   - CREATE TABLE statements for inventories and items
+   - Foreign key relationships and constraints
+   - Proper indexing for performance
 
-## Key Features Implemented
+3. **Build migration system**
+   - Version tracking for schema changes
+   - Safe migration execution
+   - Rollback capabilities
 
-1. **Form Validation:** Zod schemas with real-time error feedback
-2. **Navigation Integration:** Create → Cancel/Success flows
-3. **State Management:** Full Zustand store integration
-4. **Type Safety:** Complete TypeScript coverage
-5. **UI Consistency:** GlueStack UI components throughout
+### Phase 2: TypeScript Integration  
+4. **Create database entity interfaces**
+   - DatabaseInventory and DatabaseItem types
+   - Mapping between Zustand store types and DB types
 
-## Testing Status
+### Phase 3: CRUD Operations
+5. **Implement inventory CRUD operations**
+   - Create, read, update, delete for inventories
+   - Integration with existing Zustand store
 
-✅ **Manual Testing Complete:**
-- App builds and runs without errors
-- Navigation flows work correctly
-- Forms validate properly
-- Zustand store operations functional
+6. **Implement item CRUD operations** 
+   - Create, read, update, delete for items
+   - Relationship management with inventories
 
-## Next Steps
+7. **Database initialization and seeding**
+   - First-run setup
+   - Optional sample data
 
-1. **Complete Issue Workflow:**
-   - Push changes to `phase2-inventory-navigation` branch
-   - Create PR with `Closes #3`
-   - Update issue status to "in review"
+## Assumptions & Constraints
 
-2. **Future Enhancements** (separate issues):
-   - Database integration (SQLite)
-   - Barcode scanning integration
-   - Advanced item fields (price, category, location)
-   - Edit/Update forms for existing items
+- **expo-sqlite** already installed and configured
+- Existing Zustand store patterns should be preserved
+- Current Zod schemas in `lib/schemas.ts` define the data structure
+- Database should work offline-first
+- Need to maintain compatibility with existing form components
+
+## Technical Considerations
+
+- **Performance**: Use transactions for batch operations
+- **Error Handling**: Comprehensive error catching and logging
+- **Type Safety**: Strong TypeScript integration between DB and store
+- **Migration Safety**: Careful schema versioning and backwards compatibility
+
+## Open Questions
+
+1. Should we migrate existing Zustand store data to database on first run?
+2. How do we handle data synchronization between Zustand store and database?
+3. Do we need connection pooling or is single connection sufficient?
+4. Should we implement soft delete or hard delete for items/inventories?
+
+## Current Progress
+
+- ✅ Branch created: `phase1-sqlite-database`
+- ✅ Issue analysis complete
+- ⏳ Starting database service implementation
+
+## Next Immediate Steps
+
+1. Create `lib/database.ts` with basic connection setup
+2. Define database schema with CREATE TABLE statements  
+3. Implement migration system
+4. Create TypeScript interfaces for database entities
+5. Build CRUD operations for inventories
+6. Build CRUD operations for items
+7. Test database integration with existing components

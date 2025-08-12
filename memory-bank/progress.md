@@ -163,5 +163,7 @@
 **December 8, 2025, 10:13 AM (CET)**: PR opened: https://github.com/tulgardinc/inventory-app/pull/17 for Issue #16 - Core dependencies installation complete
 **December 8, 2025, 10:25 AM (CET)**: Kickoff: created branch `phase2-inventory-navigation` for Issue #3
 **December 8, 2025, 10:46 AM (CET)**: Issue #3 COMPLETED - Navigation structure and basic CRUD forms implemented and tested
+**December 8, 2025, 10:49 AM (CET)**: Issue #3 GitHub workflow COMPLETED - PR #18 created, issue status updated to "in review"
+**December 8, 2025, 10:52 AM (CET)**: Kickoff: created branch `phase1-sqlite-database` for Issue #2 - SQLite Database Service Layer
 
 This progress tracking will be updated as development advances through each phase.
