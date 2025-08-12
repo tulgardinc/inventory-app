@@ -1,100 +1,86 @@
-# Active Context - Issue #4: Inventory CRUD Operations
+# Active Context
 
-**Issue:** #4 - Phase 2: Implement Inventory CRUD Operations and UI
-**URL:** https://github.com/tulgardinc/inventory-app/issues/4
-**Branch:** phase2-inventory-crud
-**Status:** COMPLETED - PR #21 Created
-**PR URL:** https://github.com/tulgardinc/inventory-app/pull/21
-**Started:** December 8, 2025
+## Current Issue
+**Issue #5**: Phase 2: Implement Item CRUD Operations and UI
+**URL**: https://github.com/tulgardinc/inventory-app/issues/5
+**Branch**: `item-crud-operations`
+**Status**: In Progress
 
 ## Scope & Acceptance Criteria
 
-Build the core inventory management screens with create, read, update, delete functionality and connect to database layer.
+Build the core item management screens with full CRUD functionality for all 8 item fields:
+- name, quantity, price, category, location, description, entry date, expiration date
 
-**User Stories:**
-- Users can view list of all their inventories
-- New inventories can be created with name and description
-- Existing inventories can be edited and updated
-- Inventories can be deleted with proper confirmation
-- All forms include validation and error messages
-- UI is responsive and follows design system
-
-## Assumptions/Constraints
-
-**Technical Foundation Available:**
-- ✅ SQLite database service layer already implemented (`lib/database/inventoryRepository.ts`)
-- ✅ Database-integrated Zustand store available (`lib/databaseStore.ts`)
-- ✅ Zod validation schemas ready (`lib/schemas.ts`)
-- ✅ Navigation structure established (`app/inventories/_layout.tsx`)
-- ✅ Form components partially built (`components/forms/InventoryForm.tsx`)
-- ✅ Testing infrastructure ready for TDD development
-
-**Coding Standards:**
-- All files must stay under 300 lines
-- Follow semantic file naming conventions
-- Use TDD approach with tests first
+**Requirements:**
+- Item list display within each inventory
+- Create new item form with all required fields
+- Edit existing item details
+- Delete items with confirmation
+- Item detail view with full information
+- Date picker for entry and expiration dates
+- Comprehensive Zod validation
+- Gluestack UI styling throughout
 
 ## Plan of Attack
 
-**Phase 2A: Complete Inventory List Screen**
-- Enhance `app/inventories/index.tsx` with proper inventory listing
-- Connect to database store for real-time inventory data
-- Add loading states and error handling
-- Implement inventory navigation
+### Phase 1: Enhanced Item Schema & Validation
+- [ ] Expand Zod schemas for all 8 item fields with proper validation
+- [ ] Add date validation and formatting utilities
+- [ ] Update database types for comprehensive item data
 
-**Phase 2B: Enhance Create & Edit Forms**
-- Complete `app/inventories/create.tsx` integration
-- Build inventory edit functionality with `app/inventories/[id]/edit.tsx`
-- Ensure form validation and user feedback
-- Connect forms to database operations
+### Phase 2: Item List Screen Enhancement ✅ COMPLETED
+- [x] Enhance existing ItemListScreen component (`app/inventories/[id]/items/index.tsx`)
+- [x] Add comprehensive item display with all 8 fields
+- [x] Implement delete functionality with confirmation dialogs
+- [x] Add navigation to item detail view and create screens
+- [x] Add expiration status indicators (EXPIRED, EXPIRING SOON)
+- [x] Add loading states and error handling
+- [x] Create comprehensive test suite (17 tests) - ALL PASSING ✅
 
-**Phase 2C: Implement Delete Functionality**
-- Add delete confirmation modal/dialog
-- Connect delete operations to database
-- Handle cascade deletion considerations (items in inventory)
-- Implement proper error handling
+### Phase 3: Comprehensive Item Forms
+- [ ] Build complete ItemCreateForm with all 8 fields
+- [ ] Implement ItemEditForm with pre-populated data
+- [ ] Add date picker components for entry/expiration dates
+- [ ] Connect forms to database service layer
 
-**Phase 2D: Polish User Experience**
-- Add loading indicators during database operations  
-- Implement optimistic updates where appropriate
-- Ensure proper navigation flows
-- Add empty states and error boundaries
+### Phase 4: Item Detail Screen
+- [ ] Create ItemDetailScreen showing all information clearly
+- [ ] Add edit and delete actions
+- [ ] Implement proper navigation flow
 
-## Current Architecture Status
+### Phase 5: Testing & Polish
+- [ ] Write comprehensive tests for all new components
+- [ ] Ensure TDD compliance with failing tests first
+- [ ] Polish UX and styling consistency
 
-**Database Layer:** ✅ Complete and tested
-- `inventoryRepository.createInventory()`
-- `inventoryRepository.getInventories()`
-- `inventoryRepository.getInventoryById()` 
-- `inventoryRepository.updateInventory()`
-- `inventoryRepository.deleteInventory()`
+## Assumptions/Constraints
 
-**Store Layer:** ✅ Available but needs integration
-- `useDatabaseStore` with inventory operations
-- Async loading states and error handling built-in
-
-**UI Components:** 🔄 Partially complete
-- Basic form components exist but need full integration
-- Navigation routes established but screens need completion
+- Database layer already supports all item fields (verified in itemRepository.ts)
+- Basic ItemForm components exist but need enhancement
+- Navigation structure already established
+- Testing infrastructure is operational (47/47 tests passing)
+- Following TDD approach with commit gates
 
 ## Open Questions
 
-1. **Delete Confirmation UX**: Should we use a modal, alert, or inline confirmation?
-2. **Empty State**: What should users see when they have no inventories?
-3. **Loading States**: Should we show skeletons or spinners during data loading?
-4. **Error Recovery**: How should users recover from failed operations?
+- Should we implement batch operations for multiple item management?
+- What level of offline support is needed for item operations?
+- Are there specific business rules for item expiration date validation?
 
-## Technical Decisions Made
+## Technical Foundation Available
 
-- Using database-integrated Zustand store for state management
-- Following existing navigation structure with file-based routing
-- Leveraging GlueStack UI components for consistent design
-- Implementing TDD approach with comprehensive test coverage
+- ✅ Database Layer: itemRepository.ts with full CRUD operations
+- ✅ Store Integration: databaseStore.ts ready for item operations
+- ✅ Navigation: File-based routing structure established
+- ✅ Form Infrastructure: Basic components exist, need enhancement
+- ✅ Testing: Jest + React Native Testing Library operational (64/64 tests passing)
+- ✅ ItemsListScreen: Fully implemented with comprehensive 8-field display and delete operations
+- ✅ Validation: Zod foundation established, needs expansion
 
-## Next Immediate Steps
+## Recent Context
 
-1. Start with failing tests for inventory list functionality
-2. Implement inventory listing with real database integration
-3. Complete create inventory flow with proper feedback
-4. Add edit functionality with form pre-population
-5. Implement delete with confirmation dialog
+Just completed Issue #4 which resolved testing infrastructure blockers:
+- Fixed InventoryForm Button mocking issue
+- Relocated testUtils.tsx to proper location
+- Achieved 100% test success rate (47/47 tests)
+- All technical foundations now stable for continued development

@@ -57,6 +57,37 @@ jest.mock('expo-haptics', () => ({
   selectionAsync: jest.fn(),
 }));
 
+// Mock expo-camera
+jest.mock('expo-camera', () => ({
+  Camera: {
+    requestCameraPermissionsAsync: jest.fn(() =>
+      Promise.resolve({ status: 'granted' })
+    ),
+  },
+}));
+
+// Mock expo-barcode-scanner
+jest.mock('expo-barcode-scanner', () => ({
+  BarCodeScanner: jest.fn(() => null),
+}));
+
+// Mock @react-native-community/datetimepicker
+jest.mock('@react-native-community/datetimepicker', () => {
+  const React = require('react');
+  return React.forwardRef((props, ref) => {
+    const mockOnChange = props.onChange;
+    React.useEffect(() => {
+      if (mockOnChange) {
+        // Simulate date selection after a short delay
+        setTimeout(() => {
+          mockOnChange({}, new Date('2025-12-31'));
+        }, 100);
+      }
+    }, [mockOnChange]);
+    return React.createElement('View', { testID: 'date-time-picker', ...props });
+  });
+});
+
 // Mock GlueStack UI components
 jest.mock('@gluestack-ui/themed', () => ({
   Box: 'View',
@@ -91,6 +122,29 @@ jest.mock('@gluestack-ui/themed', () => ({
   SafeAreaView: 'View',
   ScrollView: 'ScrollView',
   KeyboardAvoidingView: 'View',
+  Pressable: 'TouchableOpacity',
+  Badge: 'View',
+  BadgeText: 'Text',
+  Actionsheet: ({ isOpen, children, ...props }) => {
+    const React = require('react');
+    return isOpen ? React.createElement('View', props, children) : null;
+  },
+  ActionsheetBackdrop: 'View',
+  ActionsheetContent: 'View',
+  ActionsheetDragIndicator: 'View',
+  ActionsheetDragIndicatorWrapper: 'View',
+  ActionsheetItem: 'TouchableOpacity',
+  ActionsheetItemText: 'Text',
+  AlertDialog: ({ isOpen, children, ...props }) => {
+    const React = require('react');
+    return isOpen ? React.createElement('View', props, children) : null;
+  },
+  AlertDialogBackdrop: 'View',
+  AlertDialogContent: 'View',
+  AlertDialogHeader: 'View',
+  AlertDialogCloseButton: 'TouchableOpacity',
+  AlertDialogBody: 'View',
+  AlertDialogFooter: 'View',
 }));
 
 // Mock NativeWind

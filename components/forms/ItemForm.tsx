@@ -1,25 +1,26 @@
 import { CreateItem, CreateItemSchema, UpdateItem, UpdateItemSchema } from '@/lib/schemas';
 import {
-    AlertCircleIcon,
-    Box,
-    Button,
-    ButtonText,
-    FormControl,
-    FormControlError,
-    FormControlErrorIcon,
-    FormControlErrorText,
-    FormControlLabel,
-    FormControlLabelText,
-    HStack,
-    Input,
-    InputField,
-    Textarea,
-    TextareaInput,
-    VStack
+  AlertCircleIcon,
+  Box,
+  Button,
+  ButtonText,
+  FormControl,
+  FormControlError,
+  FormControlErrorIcon,
+  FormControlErrorText,
+  FormControlLabel,
+  FormControlLabelText,
+  HStack,
+  Input,
+  InputField,
+  Textarea,
+  TextareaInput,
+  VStack
 } from '@gluestack-ui/themed';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Camera } from 'expo-camera';
-import React, { useEffect, useState } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import React, { useState } from 'react';
+import { Platform, TouchableOpacity } from 'react-native';
 import { z } from 'zod';
 
 interface ItemFormProps {
@@ -53,14 +54,8 @@ export default function ItemForm({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showScanner, setShowScanner] = useState(false);
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+  const [showExpirationPicker, setShowExpirationPicker] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
 
   const handleSubmit = () => {
     try {
@@ -91,29 +86,38 @@ export default function ItemForm({
     }
   };
 
-  const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
+  const handleBarcodeScanned = ({ type, data }: { type: string; data: string }) => {
     setShowScanner(false);
     handleFieldChange('barcode', data);
   };
 
   const openScanner = async () => {
-    if (hasPermission === null) {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
+    if (!permission) {
+      // Camera permissions are still loading.
+      return;
+    }
+
+    if (!permission.granted) {
+      // Camera permissions are not granted yet.
+      const newPermission = await requestPermission();
+      if (!newPermission.granted) {
+        return;
+      }
     }
     
-    if (hasPermission) {
-      setShowScanner(true);
-    }
+    setShowScanner(true);
   };
 
   if (showScanner) {
     return (
       <Box flex={1} bg="$backgroundLight0">
         <Box flex={1}>
-          <BarCodeScanner
-            onBarCodeScanned={handleBarCodeScanned}
+          <CameraView
             style={{ flex: 1 }}
+            barcodeScannerSettings={{
+              barcodeTypes: ["qr", "ean13", "ean8", "code128", "code39", "code93", "codabar", "itf14", "datamatrix", "pdf417", "upc_a", "upc_e", "aztec"]
+            }}
+            onBarcodeScanned={handleBarcodeScanned}
           />
         </Box>
         <Box p="$4">
@@ -159,7 +163,7 @@ export default function ItemForm({
                 onChangeText={(text) => handleFieldChange('barcode', text)}
               />
             </Input>
-            <Button size="sm" onPress={openScanner} isDisabled={hasPermission === false}>
+            <Button size="sm" onPress={openScanner}>
               <ButtonText>Scan</ButtonText>
             </Button>
           </HStack>
@@ -266,6 +270,40 @@ export default function ItemForm({
             <FormControlError>
               <FormControlErrorIcon as={AlertCircleIcon} />
               <FormControlErrorText>{errors.description}</FormControlErrorText>
+            </FormControlError>
+          )}
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.expirationDate}>
+          <FormControlLabel>
+            <FormControlLabelText>Expiration Date</FormControlLabelText>
+          </FormControlLabel>
+          <TouchableOpacity onPress={() => setShowExpirationPicker(true)}>
+            <Input isReadOnly>
+              <InputField
+                placeholder="Select expiration date (optional)"
+                value={formData.expirationDate ? formData.expirationDate.toDateString() : ''}
+                editable={false}
+              />
+            </Input>
+          </TouchableOpacity>
+          {showExpirationPicker && (
+            <DateTimePicker
+              value={formData.expirationDate || new Date()}
+              mode="date"
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              onChange={(event: any, selectedDate?: Date) => {
+                setShowExpirationPicker(false);
+                if (selectedDate) {
+                  handleFieldChange('expirationDate', selectedDate);
+                }
+              }}
+            />
+          )}
+          {errors.expirationDate && (
+            <FormControlError>
+              <FormControlErrorIcon as={AlertCircleIcon} />
+              <FormControlErrorText>{errors.expirationDate}</FormControlErrorText>
             </FormControlError>
           )}
         </FormControl>
