@@ -157,8 +157,12 @@
 - **User Experience**: <3 taps to add item via barcode
 - **Reliability**: Zero data loss during normal operations
 
+<<<<<<< Updated upstream
+=======
 ## Recent Activity Log
 
 **December 8, 2025, 9:58 AM (CET)**: Kickoff: created branch `phase1-core-dependencies` for Issue #16
+**December 8, 2025, 10:13 AM (CET)**: PR opened: https://github.com/tulgardinc/inventory-app/pull/17 for Issue #16 - Core dependencies installation complete
 
+>>>>>>> Stashed changes
 This progress tracking will be updated as development advances through each phase.
