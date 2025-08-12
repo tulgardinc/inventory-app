@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react-native';
 import React from 'react';
 import InventoryForm from '../../../components/forms/InventoryForm';
-import { renderWithProviders } from '../../utils/testUtils';
+import { renderWithProviders } from '../../../utils/test/testUtils';
 
 // Mock the router
 const mockRouter = {

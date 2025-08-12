@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1755004947311" clover="3.2.0">
-  <project timestamp="1755004947311" name="All files">
-    <metrics statements="580" coveredstatements="29" conditionals="349" coveredconditionals="25" methods="220" coveredmethods="9" elements="1149" coveredelements="63" complexity="0" loc="580" ncloc="580" packages="14" files="42" classes="42"/>
+<coverage generated="1755006361597" clover="3.2.0">
+  <project timestamp="1755006361597" name="All files">
+    <metrics statements="632" coveredstatements="75" conditionals="360" coveredconditionals="36" methods="241" coveredmethods="24" elements="1233" coveredelements="135" complexity="0" loc="632" ncloc="632" packages="15" files="43" classes="43"/>
     <package name="app">
       <metrics statements="7" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="+not-found.tsx" path="/Users/ts/projects/inventory-app/app/+not-found.tsx">
@@ -38,7 +38,7 @@
       </file>
     </package>
     <package name="app.inventories">
-      <metrics statements="23" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="11" coveredmethods="0"/>
+      <metrics statements="51" coveredstatements="36" conditionals="12" coveredconditionals="10" methods="19" coveredmethods="14"/>
       <file name="_layout.tsx" path="/Users/ts/projects/inventory-app/app/inventories/_layout.tsx">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
@@ -61,15 +61,43 @@
         <line num="29" count="0" type="stmt"/>
       </file>
       <file name="index.tsx" path="/Users/ts/projects/inventory-app/app/inventories/index.tsx">
-        <metrics statements="8" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
+        <metrics statements="36" coveredstatements="36" conditionals="12" coveredconditionals="10" methods="14" coveredmethods="14"/>
+        <line num="7" count="15" type="stmt"/>
+        <line num="8" count="15" type="stmt"/>
+        <line num="11" count="15" type="stmt"/>
+        <line num="12" count="15" type="stmt"/>
+        <line num="13" count="15" type="stmt"/>
+        <line num="14" count="15" type="stmt"/>
+        <line num="15" count="15" type="stmt"/>
+        <line num="16" count="15" type="stmt"/>
+        <line num="19" count="15" type="stmt"/>
+        <line num="20" count="11" type="stmt"/>
+        <line num="21" count="11" type="stmt"/>
+        <line num="22" count="11" type="stmt"/>
+        <line num="24" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="28" count="11" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="35" count="11" type="stmt"/>
+        <line num="38" count="15" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="42" count="15" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="52" count="15" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="57" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="80" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="81" count="3" type="stmt"/>
+        <line num="104" count="11" type="stmt"/>
+        <line num="126" count="10" type="stmt"/>
+        <line num="127" count="10" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
       </file>
     </package>
     <package name="app.inventories.[id]">
@@ -748,6 +776,36 @@
         <line num="7" count="7" type="stmt"/>
         <line num="8" count="7" type="stmt"/>
         <line num="15" count="6" type="cond" truecount="3" falsecount="0"/>
+      </file>
+    </package>
+    <package name="utils.test">
+      <metrics statements="24" coveredstatements="10" conditionals="3" coveredconditionals="1" methods="13" coveredmethods="1"/>
+      <file name="testUtils.tsx" path="/Users/ts/projects/inventory-app/utils/test/testUtils.tsx">
+        <metrics statements="24" coveredstatements="10" conditionals="3" coveredconditionals="1" methods="13" coveredmethods="1"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
       </file>
     </package>
   </project>
